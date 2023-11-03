@@ -14,7 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.repositories.TradeRepository;
 
+import jakarta.transaction.Transactional;
+
 @SpringBootTest
+@Transactional
 public class TradeTests {
 
     @Autowired
