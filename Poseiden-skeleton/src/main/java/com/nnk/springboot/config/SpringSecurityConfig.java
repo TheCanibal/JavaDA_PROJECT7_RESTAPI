@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,15 +23,9 @@ public class SpringSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
 	return http.authorizeHttpRequests(auth -> {
-	    auth.requestMatchers("/").hasRole("USER");
+	    auth.requestMatchers("/**").permitAll();
 	    auth.requestMatchers("/resources/**", "/css/**").permitAll().anyRequest().authenticated();
-	}).formLogin(form -> {
-	    form.loginPage("/login").permitAll();
-	    form.usernameParameter("email");
-	    form.passwordParameter("password");
-	    form.defaultSuccessUrl("/");
-	    form.failureUrl("/login?error=true").permitAll();
-	}).csrf(csrf -> {
+	}).formLogin(Customizer.withDefaults()).csrf(csrf -> {
 	    csrf.disable();
 	}).logout(logout -> {
 	    logout.logoutUrl("/logout").permitAll();

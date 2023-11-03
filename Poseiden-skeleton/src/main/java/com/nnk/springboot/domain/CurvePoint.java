@@ -17,9 +17,13 @@ public class CurvePoint {
     private Integer Id;
     private Integer CurveId;
     private Timestamp asOfDate;
-    private double term;
-    private double value;
+    private Double term;
+    private Double value;
     private Timestamp creationDate;
+
+    public CurvePoint() {
+	super();
+    }
 
     public CurvePoint(Integer curveId, double term, double value) {
 	this.CurveId = curveId;

@@ -17,10 +17,10 @@ public class BidList {
     private Integer BidListId;
     private String account;
     private String type;
-    private double bidQuantity;
-    private double askQuantity;
-    private double bid;
-    private double ask;
+    private Double bidQuantity;
+    private Double askQuantity;
+    private Double bid;
+    private Double ask;
     private String benchmark;
     private Timestamp bidListDate;
     private String commentary;
@@ -36,6 +36,9 @@ public class BidList {
     private String dealType;
     private String sourceListId;
     private String side;
+
+    public BidList() {
+    }
 
     public BidList(String account, String type, double bidQuantity) {
 	this.account = account;

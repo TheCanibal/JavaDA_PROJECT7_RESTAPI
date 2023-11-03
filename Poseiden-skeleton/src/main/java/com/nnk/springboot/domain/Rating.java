@@ -19,6 +19,10 @@ public class Rating {
     private String fitchRating;
     private Integer orderNumber;
 
+    public Rating() {
+	super();
+    }
+
     public Rating(String moodysRating, String sandPRating, String fitchRating, Integer orderNumber) {
 	this.moodysRating = moodysRating;
 	this.sandPRating = sandPRating;

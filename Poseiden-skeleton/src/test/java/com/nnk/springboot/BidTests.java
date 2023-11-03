@@ -15,10 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
 
-import jakarta.transaction.Transactional;
-
 @SpringBootTest
-@Transactional
 public class BidTests {
 
     @Autowired

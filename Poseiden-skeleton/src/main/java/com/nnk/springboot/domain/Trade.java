@@ -16,10 +16,10 @@ public class Trade {
     private Integer TradeId;
     private String account;
     private String type;
-    private double buyQuantity;
-    private double sellQuantity;
-    private double buyPrice;
-    private double sellPrice;
+    private Double buyQuantity;
+    private Double sellQuantity;
+    private Double buyPrice;
+    private Double sellPrice;
     private Timestamp tradeDate;
     private String security;
     private String status;
@@ -34,6 +34,10 @@ public class Trade {
     private String dealType;
     private String sourceListId;
     private String side;
+
+    public Trade() {
+	super();
+    }
 
     public Trade(String account, String type) {
 	this.account = account;
