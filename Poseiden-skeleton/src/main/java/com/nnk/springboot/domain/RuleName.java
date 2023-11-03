@@ -1,6 +1,6 @@
 package com.nnk.springboot.domain;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
 
