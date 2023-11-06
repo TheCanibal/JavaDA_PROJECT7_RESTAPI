@@ -1,5 +1,8 @@
 package com.nnk.springboot.domain;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,7 +14,9 @@ import jakarta.persistence.Table;
 public class RuleName {
     // TODO: Map columns in data table RULENAME with corresponding java fields
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "native")
+    @GenericGenerator(name = "native")
+    @Column(name = "Id")
     private Integer Id;
     private String name;
     private String description;

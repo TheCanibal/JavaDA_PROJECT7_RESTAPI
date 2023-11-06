@@ -1,7 +1,7 @@
-DROP TABLE IF EXISTS BidList, Trade, CurvePoint, Rating, RuleName, Users;
+DROP TABLE IF EXISTS BidList, Trade, CurvePoint, Rating, RuleName, Users, BidList_seq, Trade_seq, CurvePoint_seq, Rating_seq, RuleName_seq, Users_seq;
 
 CREATE TABLE BidList (
-  id INT NOT NULL PRIMARY KEY,
+  Id tinyint NOT NULL AUTO_INCREMENT,
   account VARCHAR(30) NOT NULL,
   type VARCHAR(30) NOT NULL,
   bidQuantity DOUBLE,
@@ -22,12 +22,13 @@ CREATE TABLE BidList (
   dealName VARCHAR(125),
   dealType VARCHAR(125),
   sourceListId VARCHAR(125),
-  side VARCHAR(125)
-  
+  side VARCHAR(125),
+
+  PRIMARY KEY (Id)
 );
 
 CREATE TABLE Trade (
-  trade_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  Id tinyint NOT NULL AUTO_INCREMENT,
   account VARCHAR(30) NOT NULL,
   type VARCHAR(30) NOT NULL,
   buyQuantity DOUBLE,
@@ -47,43 +48,52 @@ CREATE TABLE Trade (
   dealName VARCHAR(125),
   dealType VARCHAR(125),
   sourceListId VARCHAR(125),
-  side VARCHAR(125)
+  side VARCHAR(125),
+
+  PRIMARY KEY (Id)
 );
 
 CREATE TABLE CurvePoint (
-  Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  Id tinyint NOT NULL AUTO_INCREMENT,
   CurveId tinyint,
   asOfDate TIMESTAMP,
   term DOUBLE ,
   value DOUBLE ,
-  creationDate TIMESTAMP 
+  creationDate TIMESTAMP ,
+
+  PRIMARY KEY (Id)
 );
 
 CREATE TABLE Rating (
-  Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  Id tinyint NOT NULL AUTO_INCREMENT,
   moodysRating VARCHAR(125),
   sandPRating VARCHAR(125),
   fitchRating VARCHAR(125),
-  orderNumber tinyint
+  orderNumber tinyint,
 
+  PRIMARY KEY (Id)
 );
 
 CREATE TABLE RuleName (
-  Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  Id tinyint NOT NULL AUTO_INCREMENT,
   name VARCHAR(125),
   description VARCHAR(125),
   json VARCHAR(125),
   template VARCHAR(512),
   sqlStr VARCHAR(125),
-  sqlPart VARCHAR(125)
+  sqlPart VARCHAR(125),
+
+  PRIMARY KEY (Id)
 );
 
 CREATE TABLE Users (
-  Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  Id tinyint NOT NULL AUTO_INCREMENT,
   username VARCHAR(125),
   password VARCHAR(125),
   fullname VARCHAR(125),
-  role VARCHAR(125)
+  role VARCHAR(125),
+
+  PRIMARY KEY (Id)
 );
 
 insert into Users(fullname, username, password, role) values("Administrator", "admin", "$2a$10$0.aGcFlatjAfIhmmHkG/i.wkew6w8HBE8WsOTla1ivKDtkNddCiTK", "ADMIN");
