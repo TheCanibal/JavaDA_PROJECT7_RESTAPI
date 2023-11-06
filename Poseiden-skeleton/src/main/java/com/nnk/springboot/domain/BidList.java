@@ -2,8 +2,6 @@ package com.nnk.springboot.domain;
 
 import java.sql.Timestamp;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,8 +16,7 @@ import jakarta.validation.constraints.NotNull;
 public class BidList {
     // TODO: Map columns in data table BIDLIST with corresponding java fields
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "native")
-    @GenericGenerator(name = "native")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
     private Integer BidListId;
     @NotBlank(message = "Account is mandatory")
@@ -50,7 +47,7 @@ public class BidList {
     public BidList() {
     }
 
-    public BidList(String account, String type, double bidQuantity) {
+    public BidList(String account, String type, Double bidQuantity) {
 	this.account = account;
 	this.type = type;
 	this.bidQuantity = bidQuantity;

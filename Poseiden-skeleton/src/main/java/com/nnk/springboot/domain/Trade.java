@@ -73,35 +73,35 @@ public class Trade {
 	this.type = type;
     }
 
-    public double getBuyQuantity() {
+    public Double getBuyQuantity() {
 	return buyQuantity;
     }
 
-    public void setBuyQuantity(double buyQuantity) {
+    public void setBuyQuantity(Double buyQuantity) {
 	this.buyQuantity = buyQuantity;
     }
 
-    public double getSellQuantity() {
+    public Double getSellQuantity() {
 	return sellQuantity;
     }
 
-    public void setSellQuantity(double sellQuantity) {
+    public void setSellQuantity(Double sellQuantity) {
 	this.sellQuantity = sellQuantity;
     }
 
-    public double getBuyPrice() {
+    public Double getBuyPrice() {
 	return buyPrice;
     }
 
-    public void setBuyPrice(double buyPrice) {
+    public void setBuyPrice(Double buyPrice) {
 	this.buyPrice = buyPrice;
     }
 
-    public double getSellPrice() {
+    public Double getSellPrice() {
 	return sellPrice;
     }
 
-    public void setSellPrice(double sellPrice) {
+    public void setSellPrice(Double sellPrice) {
 	this.sellPrice = sellPrice;
     }
 

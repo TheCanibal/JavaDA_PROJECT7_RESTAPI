@@ -33,14 +33,12 @@ public class BidListController {
     }
 
     @PostMapping("/bidList/validate")
-    public String validate(@Valid BidList bid, BindingResult result, Model model) {
+    public String validate(@Valid BidList bidList, BindingResult result, Model model) {
 	// TODO: check data valid and save to db, after saving return bid list
 	if (result.hasErrors()) {
-	    return "redirect:/bidList/add";
+	    return "bidList/add";
 	}
-	System.out.println(bid.getBidListId());
-	bidListService.addBidList(bid);
-	System.out.println(bid.getAccount());
+	bidListService.addBidList(bidList);
 	return "redirect:/bidList/list";
     }
 
@@ -57,7 +55,7 @@ public class BidListController {
 	// TODO: check required fields, if valid call service to update Bid and return
 	// list Bid
 	if (result.hasErrors()) {
-	    return "redirect:/bidList/add";
+	    return "bidList/update";
 	}
 	bidListService.updateBidList(bidList);
 	return "redirect:/bidList/list";

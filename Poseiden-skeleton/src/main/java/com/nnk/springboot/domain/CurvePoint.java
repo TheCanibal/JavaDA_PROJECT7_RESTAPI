@@ -60,19 +60,19 @@ public class CurvePoint {
 	this.asOfDate = asOfDate;
     }
 
-    public double getTerm() {
+    public Double getTerm() {
 	return term;
     }
 
-    public void setTerm(double term) {
+    public void setTerm(Double term) {
 	this.term = term;
     }
 
-    public double getValue() {
+    public Double getValue() {
 	return value;
     }
 
-    public void setValue(double value) {
+    public void setValue(Double value) {
 	this.value = value;
     }
 
