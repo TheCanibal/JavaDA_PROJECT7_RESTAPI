@@ -7,6 +7,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "bidlist")
@@ -15,8 +17,11 @@ public class BidList {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer BidListId;
+    @NotBlank(message = "Account is mandatory")
     private String account;
+    @NotBlank(message = "Type is mandatory")
     private String type;
+    @NotNull(message = "Can't be null")
     private Double bidQuantity;
     private Double askQuantity;
     private Double bid;
@@ -70,35 +75,35 @@ public class BidList {
 	this.type = type;
     }
 
-    public double getBidQuantity() {
+    public Double getBidQuantity() {
 	return bidQuantity;
     }
 
-    public void setBidQuantity(double bidQuantity) {
+    public void setBidQuantity(Double bidQuantity) {
 	this.bidQuantity = bidQuantity;
     }
 
-    public double getAskQuantity() {
+    public Double getAskQuantity() {
 	return askQuantity;
     }
 
-    public void setAskQuantity(double askQuantity) {
+    public void setAskQuantity(Double askQuantity) {
 	this.askQuantity = askQuantity;
     }
 
-    public double getBid() {
+    public Double getBid() {
 	return bid;
     }
 
-    public void setBid(double bid) {
+    public void setBid(Double bid) {
 	this.bid = bid;
     }
 
-    public double getAsk() {
+    public Double getAsk() {
 	return ask;
     }
 
-    public void setAsk(double ask) {
+    public void setAsk(Double ask) {
 	this.ask = ask;
     }
 

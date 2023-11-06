@@ -23,11 +23,10 @@ public class SpringSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
 	return http.authorizeHttpRequests(auth -> {
-	    auth.requestMatchers("/**").permitAll();
-	    auth.requestMatchers("/resources/**", "/css/**").permitAll().anyRequest().authenticated();
-	}).formLogin(Customizer.withDefaults()).csrf(csrf -> {
-	    csrf.disable();
-	}).logout(logout -> {
+	    auth.requestMatchers("/**").hasRole("ADMIN");
+	    auth.anyRequest().authenticated();
+	    // auth.requestMatchers("/resources/**", "/css/**").permitAll();
+	}).formLogin(Customizer.withDefaults()).logout(logout -> {
 	    logout.logoutUrl("/logout").permitAll();
 	    logout.logoutSuccessUrl("/login?logout").invalidateHttpSession(true).deleteCookies("JSESSIONID",
 		    "remember-me");
