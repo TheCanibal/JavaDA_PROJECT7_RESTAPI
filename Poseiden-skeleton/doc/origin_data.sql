@@ -55,21 +55,21 @@ CREATE TABLE Trade (
 
 CREATE TABLE CurvePoint (
   Id tinyint NOT NULL AUTO_INCREMENT,
-  CurveId tinyint,
-  asOfDate TIMESTAMP,
+  Curve_Id tinyint,
+  as_Of_Date TIMESTAMP,
   term DOUBLE ,
   value DOUBLE ,
-  creationDate TIMESTAMP ,
+  creation_Date TIMESTAMP ,
 
   PRIMARY KEY (Id)
 );
 
 CREATE TABLE Rating (
   Id tinyint NOT NULL AUTO_INCREMENT,
-  moodysRating VARCHAR(125),
-  sandPRating VARCHAR(125),
-  fitchRating VARCHAR(125),
-  orderNumber tinyint,
+  moodys_Rating VARCHAR(125),
+  sand_P_Rating VARCHAR(125),
+  fitch_Rating VARCHAR(125),
+  order_Number tinyint,
 
   PRIMARY KEY (Id)
 );
@@ -80,8 +80,8 @@ CREATE TABLE RuleName (
   description VARCHAR(125),
   json VARCHAR(125),
   template VARCHAR(512),
-  sqlStr VARCHAR(125),
-  sqlPart VARCHAR(125),
+  sql_Str VARCHAR(125),
+  sql_Part VARCHAR(125),
 
   PRIMARY KEY (Id)
 );
