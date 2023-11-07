@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.validation.Valid;
 
 @Controller
-public class CurveController {
+public class CurvePointController {
     // TODO: Inject Curve Point service
 
     @RequestMapping("/curvePoint/list")

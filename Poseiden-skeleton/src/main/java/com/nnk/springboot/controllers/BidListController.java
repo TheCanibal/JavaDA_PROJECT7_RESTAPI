@@ -9,7 +9,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.services.BidListService;
@@ -20,7 +19,7 @@ public class BidListController {
     @Autowired
     private BidListService bidListService;
 
-    @RequestMapping("/bidList/list")
+    @GetMapping("/bidList/list")
     public String home(Model model) {
 	// TODO: call service find all bids to show to the view
 	model.addAttribute("bidLists", bidListService.getAllBidLists());
