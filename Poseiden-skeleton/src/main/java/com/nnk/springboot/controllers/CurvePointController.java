@@ -39,8 +39,10 @@ public class CurvePointController {
 	    return "curvePoint/add";
 	}
 	curveService.addCurvePoint(curvePoint);
-	curvePoint.setCurveId(curvePoint.getId());
-	curveService.updateCurvePoint(curvePoint);
+	if (curvePoint.getCurveId() == null) {
+	    curvePoint.setCurveId(curvePoint.getId());
+	    curveService.updateCurvePoint(curvePoint);
+	}
 	return "redirect:/curvePoint/list";
     }
 
