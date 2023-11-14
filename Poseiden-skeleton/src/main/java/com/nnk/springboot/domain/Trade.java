@@ -51,6 +51,12 @@ public class Trade {
 	this.type = type;
     }
 
+    public Trade(String account, String type, Double buyQuantity) {
+	this.account = account;
+	this.type = type;
+	this.buyQuantity = buyQuantity;
+    }
+
     public Integer getTradeId() {
 	return TradeId;
     }
