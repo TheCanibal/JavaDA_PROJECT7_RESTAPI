@@ -61,7 +61,7 @@ public class CurvePointTests {
     @Test
     @WithMockUser(roles = "ADMIN")
     public void shouldReturnListOfCurvePointListPage() throws Exception {
-	// get the Bid list page
+	// get the Curve list page
 	mockMvc.perform(get("/curvePoint/list")).andExpect(status().isOk())
 		.andExpect(model().attributeExists("curvePoints")).andExpect(view().name("curvePoint/list"));
     }
@@ -70,7 +70,7 @@ public class CurvePointTests {
     @WithMockUser
     public void shouldReturnAddCurvePointPage() throws Exception {
 
-	// Get the Bid Add page
+	// Get the Curve Add page
 	mockMvc.perform(get("/curvePoint/add")).andExpect(status().isOk()).andExpect(view().name("curvePoint/add"));
     }
 
@@ -79,15 +79,15 @@ public class CurvePointTests {
     public void addCurvePointToCurvePointList() throws Exception {
 	// New Object
 	CurvePoint curvePoint = new CurvePoint(10, 10d, 30d);
-	// Bid List size
+	// Curve List size
 	int curvePointSize = curvePointService.getAllCurvePoints().size();
 
-	// perform post to add bid to bid List (in DB)
+	// perform post to add Curve to Curve List (in DB)
 	mockMvc.perform(post("/curvePoint/validate").flashAttr("curvePoint", curvePoint))
 		.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/curvePoint/list"));
-	// Verify if bid is added to DB
+	// Verify if Curve is added to DB
 	assertEquals(curvePointService.getAllCurvePoints().size(), curvePointSize + 1);
-	// Delete bid from DB
+	// Delete Curve from DB
 	Integer id = curvePoint.getCurveId();
 	curvePointService.deleteCurvePoint(curvePoint);
 	Optional<CurvePoint> curve = curvePointService.getCurveById(id);
@@ -117,7 +117,7 @@ public class CurvePointTests {
 	assertEquals(curvePoint.getValue(), 30d, 30d);
 	// Get ID
 	Integer id = curvePoint.getId();
-	// Perform get to show update bid page
+	// Perform get to show update Curve page
 	mockMvc.perform(get("/curvePoint/update/{id}", id)).andExpect(status().isOk())
 		.andExpect(view().name("curvePoint/update")).andExpect(model().attributeExists("curvePoint"));
 
@@ -142,7 +142,7 @@ public class CurvePointTests {
 	// get ID
 	Integer id = curvePoint.getId();
 
-	// perform post to update bid
+	// perform post to update Curve
 	mockMvc.perform(post("/curvePoint/update/{id}", id).flashAttr("curvePoint", curvePoint).param("term", "20d")
 		.param("value", "20d")).andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/curvePoint/list"));
@@ -200,11 +200,11 @@ public class CurvePointTests {
 	// get ID
 	Integer id = curvePoint.getId();
 
-	// perform post to update bid
+	// perform post to update Curve
 	mockMvc.perform(get("/curvePoint/delete/{id}", id).flashAttr("curvePoint", curvePoint))
 		.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/curvePoint/list"));
 
-	// Verify if Bid is Deleted
+	// Verify if Curve is Deleted
 	Optional<CurvePoint> curve = curvePointService.getCurveById(id);
 	assertFalse(curve.isPresent());
 
