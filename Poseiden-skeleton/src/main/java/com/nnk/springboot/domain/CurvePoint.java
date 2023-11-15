@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -18,11 +19,14 @@ public class CurvePoint {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
     private Integer Id;
+    @NotNull(message = "curve Id can't be null")
     private Integer CurveId;
     private Timestamp asOfDate;
     @NotNull(message = "term can't be null")
+    @Digits(integer = 4, fraction = 2, message = "Maximum 4 digits + 2 digits after dot")
     private Double term;
     @NotNull(message = "value can't be null")
+    @Digits(integer = 4, fraction = 2, message = "Maximum 4 digits + 2 digits after dot")
     private Double value;
     private Timestamp creationDate;
 

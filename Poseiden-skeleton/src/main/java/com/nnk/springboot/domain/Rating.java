@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "rating")
@@ -24,7 +25,8 @@ public class Rating {
     private String sandPRating;
     @NotBlank(message = "fitchRating is mandatory")
     private String fitchRating;
-    @NotNull(message = "orderNumber can't be null")
+    @NotNull(message = "order number can't be null")
+    @Pattern(regexp = "^[0-9]{1,6}$", message = "order number must be digit between 1 and 6 length")
     private Integer orderNumber;
 
     public Rating() {

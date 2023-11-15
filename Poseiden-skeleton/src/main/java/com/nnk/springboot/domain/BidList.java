@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "bidlist")
@@ -23,7 +24,8 @@ public class BidList {
     private String account;
     @NotBlank(message = "Type is mandatory")
     private String type;
-    @NotNull(message = "Can't be null")
+    @NotNull(message = "Quantity can't be null")
+    @Pattern(regexp = "^[0-9]{1,6}$", message = "Quantity must be digit between 1 and 6 length")
     private Double bidQuantity;
     private Double askQuantity;
     private Double bid;
