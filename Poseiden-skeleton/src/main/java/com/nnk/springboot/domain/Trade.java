@@ -8,9 +8,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "trade")
@@ -24,7 +24,7 @@ public class Trade {
     @NotBlank(message = "Type is mandatory")
     private String type;
     @NotNull(message = "Buy quantity can't be null")
-    @Pattern(regexp = "^[0-9]{1,6}$", message = "Quantity must be digit between 1 and 6 length")
+    @Digits(integer = 4, fraction = 2, message = "Maximum 4 digits + 2 digits after dot")
     private Double buyQuantity;
     private Double sellQuantity;
     private Double buyPrice;

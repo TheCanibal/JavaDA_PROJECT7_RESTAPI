@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS BidList, Trade, CurvePoint, Rating, RuleName, Users;
 
 CREATE TABLE BidList (
-  id INT NOT NULL PRIMARY KEY,
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   account VARCHAR(30) NOT NULL,
   type VARCHAR(30) NOT NULL,
   bidQuantity DOUBLE,
@@ -27,7 +27,7 @@ CREATE TABLE BidList (
 );
 
 CREATE TABLE Trade (
-  trade_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   account VARCHAR(30) NOT NULL,
   type VARCHAR(30) NOT NULL,
   buyQuantity DOUBLE,
@@ -87,4 +87,4 @@ CREATE TABLE Users (
 );
 
 insert into Users(fullname, username, password, role) values("Administrator", "admin", "$2a$10$0.aGcFlatjAfIhmmHkG/i.wkew6w8HBE8WsOTla1ivKDtkNddCiTK", "ADMIN");
-insert into Users(fullname, username, password, role) values("User", "user", "$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa", "USER");
+insert into Users(fullname, username, password, role) values("User", "user", "$2y$10$FvCwJwv8.82jv.kY9rnGneY46BHmgl59wZAYHUMVI8rBRroFne4am", "USER");

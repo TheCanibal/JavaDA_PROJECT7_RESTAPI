@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -24,14 +25,17 @@ public class SpringSecurityConfig {
 	return http.authorizeHttpRequests(auth -> {
 	    auth.requestMatchers("/").permitAll();
 	    auth.requestMatchers("/resources/**", "/css/**").permitAll();
+	    auth.requestMatchers("/resources/**", "/error/**").hasAnyRole("USER", "ADMIN");
 	    auth.requestMatchers("/user/**").hasRole("ADMIN");
 	    auth.requestMatchers("/bidList/**").hasAnyRole("USER", "ADMIN");
 	    auth.requestMatchers("/curvePoint/**").hasAnyRole("USER", "ADMIN");
 	    auth.requestMatchers("/rating/**").hasAnyRole("USER", "ADMIN");
 	    auth.requestMatchers("/ruleName/**").hasAnyRole("USER", "ADMIN");
 	    auth.requestMatchers("/trade/**").hasAnyRole("USER", "ADMIN");
-	    auth.requestMatchers("/403").hasAnyRole("USER", "ADMIN");
+	    auth.requestMatchers("/access-denied").hasAnyRole("USER", "ADMIN");
 	    auth.anyRequest().authenticated();
+	}).exceptionHandling(exception -> {
+	    exception.accessDeniedPage("/access-denied");
 	}).csrf(csrf -> {
 	    csrf.disable();
 	}).formLogin(form -> {
@@ -59,5 +63,10 @@ public class SpringSecurityConfig {
 	authenticationManagerBuilder.userDetailsService(customUserDetailsService)
 		.passwordEncoder(bCryptPasswordEncoder);
 	return authenticationManagerBuilder.build();
+    }
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+	return new CustomAccessDeniedHandler();
     }
 }

@@ -18,7 +18,6 @@ public class DBUser {
     private Integer id;
     @NotBlank(message = "Username is mandatory")
     private String username;
-    @NotBlank(message = "Password is mandatory")
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$", message = "password must be min 8 and max 20 length containing atleast 1 uppercase, 1 lowercase, 1 digit and 1 special character (!@#$%^&*)")
     private String password;
     @NotBlank(message = "FullName is mandatory")

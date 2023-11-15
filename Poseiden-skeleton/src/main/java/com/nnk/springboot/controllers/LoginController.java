@@ -32,12 +32,11 @@ public class LoginController {
 	return mav;
     }
 
-    @GetMapping("error")
+    @GetMapping("/access-denied")
     public ModelAndView error() {
-	ModelAndView mav = new ModelAndView();
+	ModelAndView mav = new ModelAndView("403");
 	String errorMessage = "You are not authorized for the requested data.";
 	mav.addObject("errorMsg", errorMessage);
-	mav.setViewName("403");
 	return mav;
     }
 }

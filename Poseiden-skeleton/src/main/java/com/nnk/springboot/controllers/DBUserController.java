@@ -27,7 +27,7 @@ public class DBUserController {
     }
 
     @GetMapping("/user/add")
-    public String addUser(DBUser bid) {
+    public String addUser(DBUser user) {
 	return "user/add";
     }
 
@@ -37,7 +37,6 @@ public class DBUserController {
 	    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	    user.setPassword(encoder.encode(user.getPassword()));
 	    userService.save(user);
-	    model.addAttribute("users", userService.findAll());
 	    return "redirect:/user/list";
 	}
 	return "user/add";
@@ -47,7 +46,7 @@ public class DBUserController {
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 	DBUser user = userService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
 	user.setPassword("");
-	model.addAttribute("user", user);
+	model.addAttribute("DBUser", user);
 	return "user/update";
     }
 

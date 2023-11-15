@@ -2,11 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<title>Spring Boot</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="../../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
 	</head>
 	<body>
 		<h3>Access Denied Exception</h3>
 		<div>
-			Logged in user: <b th:inline="text" class="user" sec:authentication="name"></b>
+			Logged in user: <b th:inline="text" class="user" sec:authentication="name"> </b>
 			<form th:action="@{/app-logout}" method="POST">
 				<input type="submit" value="Logout" />
 			</form>

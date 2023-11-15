@@ -6,9 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "rating")
@@ -26,7 +26,7 @@ public class Rating {
     @NotBlank(message = "fitchRating is mandatory")
     private String fitchRating;
     @NotNull(message = "order number can't be null")
-    @Pattern(regexp = "^[0-9]{1,6}$", message = "order number must be digit between 1 and 6 length")
+    @Digits(integer = 4, fraction = 0, message = "Maximum 4 digits")
     private Integer orderNumber;
 
     public Rating() {
