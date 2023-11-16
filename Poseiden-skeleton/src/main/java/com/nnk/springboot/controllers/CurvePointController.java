@@ -78,7 +78,7 @@ public class CurvePointController {
     }
 
     /**
-     * Verify if fields are valid and then update a new curve point in DB
+     * Verify if fields are valid and then update curve point in DB
      * 
      * @param id         curve point id
      * @param curvePoint curve point to update in DB

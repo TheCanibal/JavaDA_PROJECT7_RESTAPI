@@ -24,6 +24,11 @@ public class LoginController {
 	return "login";
     }
 
+    /**
+     * display user list
+     * 
+     * @return user list page
+     */
     @GetMapping("secure/article-details")
     public ModelAndView getAllUserArticles() {
 	ModelAndView mav = new ModelAndView();
@@ -32,6 +37,11 @@ public class LoginController {
 	return mav;
     }
 
+    /**
+     * display error 403 page
+     * 
+     * @return 403 error page
+     */
     @GetMapping("/access-denied")
     public ModelAndView error() {
 	ModelAndView mav = new ModelAndView("403");

@@ -19,6 +19,12 @@ public class BidListController {
     @Autowired
     private BidListService bidListService;
 
+    /**
+     * display bid list page
+     * 
+     * @param model
+     * @return html page path
+     */
     @GetMapping("/bidList/list")
     public String home(Model model) {
 	// TODO: call service find all bids to show to the view
@@ -26,11 +32,25 @@ public class BidListController {
 	return "bidList/list";
     }
 
+    /**
+     * display add bid page
+     * 
+     * @param bid object to add
+     * @return html page path
+     */
     @GetMapping("/bidList/add")
     public String addBidForm(BidList bid) {
 	return "bidList/add";
     }
 
+    /**
+     * verify if fields are valid then create new bid to DB
+     * 
+     * @param bidList bid to add
+     * @param result
+     * @param model
+     * @return add page if errors or redirect to list
+     */
     @PostMapping("/bidList/validate")
     public String validate(@Valid BidList bidList, BindingResult result, Model model) {
 	// TODO: check data valid and save to db, after saving return bid list
@@ -41,6 +61,13 @@ public class BidListController {
 	return "redirect:/bidList/list";
     }
 
+    /**
+     * display bid update page
+     * 
+     * @param id    bid id
+     * @param model
+     * @return html page path
+     */
     @GetMapping("/bidList/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 	// TODO: get Bid by Id and to model then show to the form
@@ -49,6 +76,15 @@ public class BidListController {
 	return "bidList/update";
     }
 
+    /**
+     * verify if fields are valid then update bid in DB
+     * 
+     * @param id      bid id
+     * @param bidList bid to update
+     * @param result
+     * @param model
+     * @return update page if errors or redirect to bid list
+     */
     @PostMapping("/bidList/update/{id}")
     public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList, BindingResult result, Model model) {
 	// TODO: check required fields, if valid call service to update Bid and return
@@ -60,6 +96,13 @@ public class BidListController {
 	return "redirect:/bidList/list";
     }
 
+    /**
+     * delete bid from DB
+     * 
+     * @param id    bid id
+     * @param model
+     * @return redirect to bid list
+     */
     @GetMapping("/bidList/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
 	// TODO: Find Bid by Id and delete the bid, return to Bid list
