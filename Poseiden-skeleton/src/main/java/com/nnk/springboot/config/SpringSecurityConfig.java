@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -19,6 +18,13 @@ public class SpringSecurityConfig {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
+    /**
+     * Security filter to securize the app and give authorizations
+     * 
+     * @param http
+     * @return filters to apply to the app
+     * @throws Exception
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -39,7 +45,7 @@ public class SpringSecurityConfig {
 	}).csrf(csrf -> {
 	    csrf.disable();
 	}).formLogin(form -> {
-	    form.defaultSuccessUrl("/bidList/list");
+	    form.defaultSuccessUrl("/");
 	    form.loginPage("/login").permitAll();
 	    form.usernameParameter("username");
 	    form.passwordParameter("password");
@@ -50,11 +56,24 @@ public class SpringSecurityConfig {
 	}).build();
     }
 
+    /**
+     * Hash the password
+     * 
+     * @return
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
 	return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Use custom user details service to authenticate users
+     * 
+     * @param http
+     * @param bCryptPasswordEncoder encode password
+     * @return
+     * @throws Exception
+     */
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder)
 	    throws Exception {
@@ -63,10 +82,5 @@ public class SpringSecurityConfig {
 	authenticationManagerBuilder.userDetailsService(customUserDetailsService)
 		.passwordEncoder(bCryptPasswordEncoder);
 	return authenticationManagerBuilder.build();
-    }
-
-    @Bean
-    public AccessDeniedHandler accessDeniedHandler() {
-	return new CustomAccessDeniedHandler();
     }
 }

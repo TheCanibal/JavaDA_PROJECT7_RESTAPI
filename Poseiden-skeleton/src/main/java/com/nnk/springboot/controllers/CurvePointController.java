@@ -9,7 +9,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.services.CurvePointService;
@@ -20,18 +19,39 @@ public class CurvePointController {
     @Autowired
     private CurvePointService curveService;
 
-    @RequestMapping("/curvePoint/list")
+    /**
+     * recover all curvePoints in database and send them to the curvePoint html page
+     * to display them
+     * 
+     * @param model
+     * @return html page path
+     */
+    @GetMapping("/curvePoint/list")
     public String home(Model model) {
 	// TODO: find all Curve Point, add to model
 	model.addAttribute("curvePoints", curveService.getAllCurvePoints());
 	return "curvePoint/list";
     }
 
+    /**
+     * display the add curve point page
+     * 
+     * @param curvePoint object to add
+     * @return html page path
+     */
     @GetMapping("/curvePoint/add")
-    public String addBidForm(CurvePoint bid) {
+    public String addBidForm(CurvePoint curvePoint) {
 	return "curvePoint/add";
     }
 
+    /**
+     * Verify if fields are valid and then create a new curve point in DB
+     * 
+     * @param curvePoint to add to DB
+     * @param result
+     * @param model
+     * @return add page if error or redirect to the list
+     */
     @PostMapping("/curvePoint/validate")
     public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
 	// TODO: check data valid and save to db, after saving return Curve list
@@ -42,6 +62,13 @@ public class CurvePointController {
 	return "redirect:/curvePoint/list";
     }
 
+    /**
+     * display the curve point update page
+     * 
+     * @param id    curve point id
+     * @param model
+     * @return html page path
+     */
     @GetMapping("/curvePoint/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 	// TODO: get CurvePoint by Id and to model then show to the form
@@ -50,6 +77,15 @@ public class CurvePointController {
 	return "curvePoint/update";
     }
 
+    /**
+     * Verify if fields are valid and then update a new curve point in DB
+     * 
+     * @param id         curve point id
+     * @param curvePoint curve point to update in DB
+     * @param result
+     * @param model
+     * @return update page if error or redirect to the list
+     */
     @PostMapping("/curvePoint/update/{id}")
     public String updateBid(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint, BindingResult result,
 	    Model model) {
@@ -62,6 +98,13 @@ public class CurvePointController {
 	return "redirect:/curvePoint/list";
     }
 
+    /**
+     * delete curve point with his id
+     * 
+     * @param id    curve point id
+     * @param model
+     * @return redirection to the list
+     */
     @GetMapping("/curvePoint/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
 	// TODO: Find Curve by Id and delete the Curve, return to Curve list
