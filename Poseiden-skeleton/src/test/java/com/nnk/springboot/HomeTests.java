@@ -1,7 +1,9 @@
 package com.nnk.springboot;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +25,10 @@ public class HomeTests {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void shouldReturnAdminHomePage() throws Exception {
-	mockMvc.perform(get("/admin/home")).andExpect(status().is3xxRedirection());
+	mockMvc.perform(get("/admin/home")).andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/bidList/list"));
     }
 
     @Test
@@ -34,8 +38,10 @@ public class HomeTests {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void shouldReturnAccessDenidedPage() throws Exception {
-	mockMvc.perform(get("/access-denied")).andExpect(status().is3xxRedirection());
+	mockMvc.perform(get("/access-denied")).andExpect(status().isOk())
+		.andExpect(model().attributeExists("errorMsg"));
     }
 
 }

@@ -7,12 +7,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.nnk.springboot.repositories.DBUserRepository;
+import com.nnk.springboot.services.BidListService;
 
 @Controller
 public class HomeController {
 
     @Autowired
     private DBUserRepository userRepository;
+
+    @Autowired
+    private BidListService bidListService;
 
     /**
      * display home page
@@ -33,6 +37,7 @@ public class HomeController {
      */
     @GetMapping("/admin/home")
     public String adminHome(Model model) {
+	model.addAttribute("bidLists", bidListService.getAllBidLists());
 	return "redirect:/bidList/list";
     }
 
@@ -56,7 +61,7 @@ public class HomeController {
      */
     @GetMapping("/access-denied")
     public ModelAndView error() {
-	ModelAndView mav = new ModelAndView("403");
+	ModelAndView mav = new ModelAndView("/403");
 	String errorMessage = "You are not authorized for the requested data.";
 	mav.addObject("errorMsg", errorMessage);
 	return mav;
