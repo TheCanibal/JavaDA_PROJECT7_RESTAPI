@@ -11,9 +11,15 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "curvepoint")
+@Getter
+@Setter
+@NoArgsConstructor
 public class CurvePoint {
     // TODO: Map columns in data table CURVEPOINT with corresponding java fields
     @Id
@@ -33,62 +39,10 @@ public class CurvePoint {
     private Double value;
     private Timestamp creationDate;
 
-    public CurvePoint() {
-	super();
-    }
-
     public CurvePoint(Integer curveId, double term, double value) {
 	this.CurveId = curveId;
 	this.term = term;
 	this.value = value;
-    }
-
-    public Integer getId() {
-	return Id;
-    }
-
-    public void setId(Integer id) {
-	Id = id;
-    }
-
-    public Integer getCurveId() {
-	return CurveId;
-    }
-
-    public void setCurveId(Integer curveId) {
-	CurveId = curveId;
-    }
-
-    public Timestamp getAsOfDate() {
-	return asOfDate;
-    }
-
-    public void setAsOfDate(Timestamp asOfDate) {
-	this.asOfDate = asOfDate;
-    }
-
-    public Double getTerm() {
-	return term;
-    }
-
-    public void setTerm(Double term) {
-	this.term = term;
-    }
-
-    public Double getValue() {
-	return value;
-    }
-
-    public void setValue(Double value) {
-	this.value = value;
-    }
-
-    public Timestamp getCreationDate() {
-	return creationDate;
-    }
-
-    public void setCreationDate(Timestamp creationDate) {
-	this.creationDate = creationDate;
     }
 
 }

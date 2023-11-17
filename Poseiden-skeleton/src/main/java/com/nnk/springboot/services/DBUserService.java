@@ -15,19 +15,23 @@ public class DBUserService {
     @Autowired
     private DBUserRepository userRepository;
 
-    public List<DBUser> findAll() {
+    public List<DBUser> findAllUsers() {
 	return userRepository.findAll();
     }
 
-    public DBUser save(DBUser user) {
+    public DBUser addUser(DBUser user) {
 	return userRepository.save(user);
     }
 
-    public Optional<DBUser> findById(int id) {
+    public DBUser updateUser(DBUser user) {
+	return userRepository.save(user);
+    }
+
+    public Optional<DBUser> findUserById(int id) {
 	return userRepository.findById(id);
     }
 
-    public void delete(DBUser user) {
+    public void deleteUser(DBUser user) {
 	userRepository.delete(user);
     }
 

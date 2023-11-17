@@ -27,7 +27,7 @@ public class DBUserController {
      */
     @GetMapping("/user/list")
     public String home(Model model) {
-	model.addAttribute("users", userService.findAll());
+	model.addAttribute("users", userService.findAllUsers());
 	return "user/list";
     }
 
@@ -55,7 +55,7 @@ public class DBUserController {
 	if (!result.hasErrors()) {
 	    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	    user.setPassword(encoder.encode(user.getPassword()));
-	    userService.save(user);
+	    userService.addUser(user);
 	    return "redirect:/user/list";
 	}
 	return "user/add";
@@ -70,7 +70,8 @@ public class DBUserController {
      */
     @GetMapping("/user/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-	DBUser user = userService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+	DBUser user = userService.findUserById(id)
+		.orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
 	user.setPassword("");
 	model.addAttribute("DBUser", user);
 	return "user/update";
@@ -94,7 +95,7 @@ public class DBUserController {
 	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	user.setPassword(encoder.encode(user.getPassword()));
 	user.setId(id);
-	userService.save(user);
+	userService.updateUser(user);
 	return "redirect:/user/list";
     }
 
@@ -107,8 +108,9 @@ public class DBUserController {
      */
     @GetMapping("/user/delete/{id}")
     public String deleteUser(@PathVariable("id") Integer id, Model model) {
-	DBUser user = userService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-	userService.delete(user);
+	DBUser user = userService.findUserById(id)
+		.orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+	userService.deleteUser(user);
 	return "redirect:/user/list";
     }
 }
