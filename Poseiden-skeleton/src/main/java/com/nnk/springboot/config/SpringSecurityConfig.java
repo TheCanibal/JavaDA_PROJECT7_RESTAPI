@@ -42,8 +42,6 @@ public class SpringSecurityConfig {
             auth.anyRequest().authenticated();
         }).exceptionHandling(exception -> {
             exception.accessDeniedPage("/access-denied");
-        }).csrf(csrf -> {
-            csrf.disable();
         }).formLogin(form -> {
             form.defaultSuccessUrl("/");
             form.loginPage("/login").permitAll();
