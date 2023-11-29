@@ -25,23 +25,23 @@ public class LoginTests {
 
     @Test
     public void shouldReturnLoginPage() throws Exception {
-	mockMvc.perform(get("/login")).andExpect(status().isOk());
+        mockMvc.perform(get("/login")).andExpect(status().isOk());
     }
 
     @Test
     public void userLoginTest() throws Exception {
-	mockMvc.perform(formLogin("/login").user("username", "admin").password("admin")).andExpect(authenticated());
+        mockMvc.perform(formLogin("/login").user("username", "admin").password("admin")).andExpect(authenticated());
     }
 
     @Test
     public void userWrongLoginTest() throws Exception {
-	mockMvc.perform(formLogin("/login").user("username", "admin").password("wrong")).andExpect(unauthenticated());
+        mockMvc.perform(formLogin("/login").user("username", "admin").password("wrong")).andExpect(unauthenticated());
     }
 
     @Test
     @WithMockUser(username = "admin")
     public void shouldReturnLoginPageWithSuccessLogoutMessage() throws Exception {
-	mockMvc.perform(logout("/app-logout")).andDo(print()).andExpect(status().is3xxRedirection())
-		.andExpect(redirectedUrl("/login?logout"));
+        mockMvc.perform(logout("/app-logout")).andDo(print()).andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/login?logout"));
     }
 }

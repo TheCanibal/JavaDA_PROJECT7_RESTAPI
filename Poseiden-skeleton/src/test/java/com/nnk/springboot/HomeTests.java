@@ -21,27 +21,27 @@ public class HomeTests {
 
     @Test
     public void shouldReturnHomePage() throws Exception {
-	mockMvc.perform(get("/")).andExpect(status().isOk());
+        mockMvc.perform(get("/")).andExpect(status().isOk());
     }
 
     @Test
     @WithMockUser(roles = "ADMIN")
     public void shouldReturnAdminHomePage() throws Exception {
-	mockMvc.perform(get("/admin/home")).andExpect(status().is3xxRedirection())
-		.andExpect(view().name("redirect:/bidList/list"));
+        mockMvc.perform(get("/admin/home")).andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/bidList/list"));
     }
 
     @Test
     @WithMockUser(roles = "ADMIN")
     public void shouldReturnUserListPageAsAdmin() throws Exception {
-	mockMvc.perform(get("/secure/article-details")).andExpect(status().isOk());
+        mockMvc.perform(get("/secure/article-details")).andExpect(status().isOk());
     }
 
     @Test
     @WithMockUser(roles = "ADMIN")
     public void shouldReturnAccessDenidedPage() throws Exception {
-	mockMvc.perform(get("/access-denied")).andExpect(status().isOk())
-		.andExpect(model().attributeExists("errorMsg"));
+        mockMvc.perform(get("/access-denied")).andExpect(status().isOk())
+                .andExpect(model().attributeExists("errorMsg"));
     }
 
 }

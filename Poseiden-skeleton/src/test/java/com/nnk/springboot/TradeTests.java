@@ -35,176 +35,176 @@ public class TradeTests {
 
     @Test
     public void tradeTest() {
-	Trade trade = new Trade("Trade Account", "Type", 10d);
+        Trade trade = new Trade("Trade Account", "Type", 10d);
 
-	// Save
-	trade = tradeService.addTrade(trade);
-	assertNotNull(trade.getTradeId());
-	assertTrue(trade.getAccount().equals("Trade Account"));
+        // Save
+        trade = tradeService.addTrade(trade);
+        assertNotNull(trade.getTradeId());
+        assertTrue(trade.getAccount().equals("Trade Account"));
 
-	// Update
-	trade.setAccount("Trade Account Update");
-	trade = tradeService.updateTrade(trade);
-	assertTrue(trade.getAccount().equals("Trade Account Update"));
+        // Update
+        trade.setAccount("Trade Account Update");
+        trade = tradeService.updateTrade(trade);
+        assertTrue(trade.getAccount().equals("Trade Account Update"));
 
-	// Find
-	List<Trade> listResult = tradeService.getAllTrades();
-	assertTrue(listResult.size() > 0);
+        // Find
+        List<Trade> listResult = tradeService.getAllTrades();
+        assertTrue(listResult.size() > 0);
 
-	// Delete
-	Integer id = trade.getTradeId();
-	tradeService.deleteTrade(trade);
-	Optional<Trade> tradeList = tradeService.getTradeById(id);
-	assertFalse(tradeList.isPresent());
+        // Delete
+        Integer id = trade.getTradeId();
+        tradeService.deleteTrade(trade);
+        Optional<Trade> tradeList = tradeService.getTradeById(id);
+        assertFalse(tradeList.isPresent());
     }
 
     @Test
     @WithMockUser(roles = "ADMIN")
     public void shouldReturnListOfTradePage() throws Exception {
-	// get the Trade list page
-	mockMvc.perform(get("/trade/list")).andExpect(status().isOk()).andExpect(model().attributeExists("trades"))
-		.andExpect(view().name("trade/list"));
+        // get the Trade list page
+        mockMvc.perform(get("/trade/list")).andExpect(status().isOk()).andExpect(model().attributeExists("trades"))
+                .andExpect(view().name("trade/list"));
     }
 
     @Test
     @WithMockUser
     public void shouldReturnAddTradePage() throws Exception {
 
-	// Get the Trade Add page
-	mockMvc.perform(get("/trade/add")).andExpect(status().isOk()).andExpect(view().name("trade/add"));
+        // Get the Trade Add page
+        mockMvc.perform(get("/trade/add")).andExpect(status().isOk()).andExpect(view().name("trade/add"));
     }
 
     @Test
     @WithMockUser
     public void addTradeToTradeList() throws Exception {
-	// New Object
-	Trade trade = new Trade("Trade Account", "Type", 10d);
-	// Trade List size
-	int ratingSize = tradeService.getAllTrades().size();
+        // New Object
+        Trade trade = new Trade("Trade Account", "Type", 10d);
+        // Trade List size
+        int ratingSize = tradeService.getAllTrades().size();
 
-	// perform post to add Trade to Trade List (in DB)
-	mockMvc.perform(post("/trade/validate").flashAttr("trade", trade)).andExpect(status().is3xxRedirection())
-		.andExpect(view().name("redirect:/trade/list"));
-	// Verify if Trade is added to DB
-	assertEquals(tradeService.getAllTrades().size(), ratingSize + 1);
-	// Delete Trade from DB
-	Integer id = trade.getTradeId();
-	// delete
-	tradeService.deleteTrade(trade);
-	Optional<Trade> tradeTest = tradeService.getTradeById(id);
-	assertFalse(tradeTest.isPresent());
+        // perform post to add Trade to Trade List (in DB)
+        mockMvc.perform(post("/trade/validate").flashAttr("trade", trade)).andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/trade/list"));
+        // Verify if Trade is added to DB
+        assertEquals(tradeService.getAllTrades().size(), ratingSize + 1);
+        // Delete Trade from DB
+        Integer id = trade.getTradeId();
+        // delete
+        tradeService.deleteTrade(trade);
+        Optional<Trade> tradeTest = tradeService.getTradeById(id);
+        assertFalse(tradeTest.isPresent());
     }
 
     @Test
     @WithMockUser
     public void addTradeToTradeListWithEmptyFields() throws Exception {
-	// perform post with empty fields and verify if there is errors
-	mockMvc.perform(post("/trade/validate").param("account", "").param("type", "").param("buyQuantity", ""))
-		.andExpect(status().isOk()).andExpect(view().name("trade/add"))
-		.andExpect(model().attributeHasFieldErrors("trade", "account", "type", "buyQuantity"));
+        // perform post with empty fields and verify if there is errors
+        mockMvc.perform(post("/trade/validate").param("account", "").param("type", "").param("buyQuantity", ""))
+                .andExpect(status().isOk()).andExpect(view().name("trade/add"))
+                .andExpect(model().attributeHasFieldErrors("trade", "account", "type", "buyQuantity"));
     }
 
     @Test
     @WithMockUser
     public void shouldReturnTradeUpdatePage() throws Exception {
-	// New Object
-	Trade trade = new Trade("Trade Account", "Type", 10d);
-	// Save
-	trade = tradeService.addTrade(trade);
-	assertNotNull(trade.getTradeId());
-	assertTrue(trade.getAccount().equals("Trade Account"));
-	// get ID
-	Integer id = trade.getTradeId();
-	// Perform get to show update Trade page
-	mockMvc.perform(get("/trade/update/{id}", id)).andExpect(status().isOk()).andExpect(view().name("trade/update"))
-		.andExpect(model().attributeExists("trade"));
+        // New Object
+        Trade trade = new Trade("Trade Account", "Type", 10d);
+        // Save
+        trade = tradeService.addTrade(trade);
+        assertNotNull(trade.getTradeId());
+        assertTrue(trade.getAccount().equals("Trade Account"));
+        // get ID
+        Integer id = trade.getTradeId();
+        // Perform get to show update Trade page
+        mockMvc.perform(get("/trade/update/{id}", id)).andExpect(status().isOk()).andExpect(view().name("trade/update"))
+                .andExpect(model().attributeExists("trade"));
 
-	// delete
-	tradeService.deleteTrade(trade);
-	Optional<Trade> tradeTest = tradeService.getTradeById(id);
-	assertFalse(tradeTest.isPresent());
+        // delete
+        tradeService.deleteTrade(trade);
+        Optional<Trade> tradeTest = tradeService.getTradeById(id);
+        assertFalse(tradeTest.isPresent());
 
     }
 
     @Test
     @WithMockUser
     public void updateTradeInTradeList() throws Exception {
-	// New Object
-	Trade trade = new Trade("Trade Account", "Type", 10d);
+        // New Object
+        Trade trade = new Trade("Trade Account", "Type", 10d);
 
-	// Save
-	trade = tradeService.addTrade(trade);
-	assertNotNull(trade.getTradeId());
-	assertTrue(trade.getAccount().equals("Trade Account"));
-	// get ID
-	Integer id = trade.getTradeId();
+        // Save
+        trade = tradeService.addTrade(trade);
+        assertNotNull(trade.getTradeId());
+        assertTrue(trade.getAccount().equals("Trade Account"));
+        // get ID
+        Integer id = trade.getTradeId();
 
-	// perform post to update Trade
-	mockMvc.perform(post("/trade/update/{id}", id).flashAttr("trade", trade)
-		.param("account", "Trade Account Modify").param("type", "Type Modify").param("buyQuantity", "20d"))
-		.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/trade/list"));
+        // perform post to update Trade
+        mockMvc.perform(post("/trade/update/{id}", id).flashAttr("trade", trade)
+                .param("account", "Trade Account Modify").param("type", "Type Modify").param("buyQuantity", "20d"))
+                .andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/trade/list"));
 
-	// Verifying if there is modifications
-	assertEquals(trade.getAccount(), "Trade Account Modify");
-	assertEquals(trade.getType(), "Type Modify");
-	assertEquals(trade.getBuyQuantity(), 20d);
+        // Verifying if there is modifications
+        assertEquals(trade.getAccount(), "Trade Account Modify");
+        assertEquals(trade.getType(), "Type Modify");
+        assertEquals(trade.getBuyQuantity(), 20d);
 
-	// delete
-	tradeService.deleteTrade(trade);
-	Optional<Trade> tradeTest = tradeService.getTradeById(id);
-	assertFalse(tradeTest.isPresent());
+        // delete
+        tradeService.deleteTrade(trade);
+        Optional<Trade> tradeTest = tradeService.getTradeById(id);
+        assertFalse(tradeTest.isPresent());
 
     }
 
     @Test
     @WithMockUser
     public void updateTradeToTradeListWithEmptyFields() throws Exception {
-	// New Object
-	Trade trade = new Trade("Trade Account", "Type", 10d);
+        // New Object
+        Trade trade = new Trade("Trade Account", "Type", 10d);
 
-	// Save
-	trade = tradeService.addTrade(trade);
-	assertNotNull(trade.getTradeId());
-	assertTrue(trade.getAccount().equals("Trade Account"));
-	// get ID
-	Integer id = trade.getTradeId();
+        // Save
+        trade = tradeService.addTrade(trade);
+        assertNotNull(trade.getTradeId());
+        assertTrue(trade.getAccount().equals("Trade Account"));
+        // get ID
+        Integer id = trade.getTradeId();
 
-	// perform post with empty fields and verify if there is errors
-	mockMvc.perform(post("/trade/update/{id}", id).param("account", "").param("type", "").param("buyQuantity", ""))
-		.andExpect(status().isOk()).andExpect(view().name("trade/update"))
-		.andExpect(model().attributeHasFieldErrors("trade", "account", "type"));
-	// Verifying if there is no modifications
-	assertEquals(trade.getAccount(), "Trade Account");
-	assertEquals(trade.getType(), "Type");
-	assertEquals(trade.getBuyQuantity(), 10d);
+        // perform post with empty fields and verify if there is errors
+        mockMvc.perform(post("/trade/update/{id}", id).param("account", "").param("type", "").param("buyQuantity", ""))
+                .andExpect(status().isOk()).andExpect(view().name("trade/update"))
+                .andExpect(model().attributeHasFieldErrors("trade", "account", "type"));
+        // Verifying if there is no modifications
+        assertEquals(trade.getAccount(), "Trade Account");
+        assertEquals(trade.getType(), "Type");
+        assertEquals(trade.getBuyQuantity(), 10d);
 
-	// delete
-	tradeService.deleteTrade(trade);
-	Optional<Trade> tradeTest = tradeService.getTradeById(id);
-	assertFalse(tradeTest.isPresent());
+        // delete
+        tradeService.deleteTrade(trade);
+        Optional<Trade> tradeTest = tradeService.getTradeById(id);
+        assertFalse(tradeTest.isPresent());
 
     }
 
     @Test
     @WithMockUser
     public void deleteTradeInTradeList() throws Exception {
-	// New Object
-	Trade trade = new Trade("Trade Account", "Type", 10d);
+        // New Object
+        Trade trade = new Trade("Trade Account", "Type", 10d);
 
-	// Save
-	trade = tradeService.addTrade(trade);
-	assertNotNull(trade.getTradeId());
-	assertTrue(trade.getAccount().equals("Trade Account"));
-	// get ID
-	Integer id = trade.getTradeId();
+        // Save
+        trade = tradeService.addTrade(trade);
+        assertNotNull(trade.getTradeId());
+        assertTrue(trade.getAccount().equals("Trade Account"));
+        // get ID
+        Integer id = trade.getTradeId();
 
-	// perform post to delete Trade
-	mockMvc.perform(get("/trade/delete/{id}", id).flashAttr("trade", trade)).andExpect(status().is3xxRedirection())
-		.andExpect(view().name("redirect:/trade/list"));
+        // perform post to delete Trade
+        mockMvc.perform(get("/trade/delete/{id}", id).flashAttr("trade", trade)).andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/trade/list"));
 
-	// Verify if Trade is Deleted
-	Optional<Trade> tradeTest = tradeService.getTradeById(id);
-	assertFalse(tradeTest.isPresent());
+        // Verify if Trade is Deleted
+        Optional<Trade> tradeTest = tradeService.getTradeById(id);
+        assertFalse(tradeTest.isPresent());
 
     }
 }

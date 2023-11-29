@@ -35,180 +35,180 @@ public class RatingTests {
 
     @Test
     public void ratingTest() {
-	Rating rating = new Rating("Moodys Rating", "Sand PRating", "Fitch Rating", 10);
+        Rating rating = new Rating("Moodys Rating", "Sand PRating", "Fitch Rating", 10);
 
-	// Save
-	rating = ratingService.addRating(rating);
-	assertNotNull(rating.getId());
-	assertTrue(rating.getOrderNumber() == 10);
+        // Save
+        rating = ratingService.addRating(rating);
+        assertNotNull(rating.getId());
+        assertTrue(rating.getOrderNumber() == 10);
 
-	// Update
-	rating.setOrderNumber(20);
-	rating = ratingService.updateRating(rating);
-	assertTrue(rating.getOrderNumber() == 20);
+        // Update
+        rating.setOrderNumber(20);
+        rating = ratingService.updateRating(rating);
+        assertTrue(rating.getOrderNumber() == 20);
 
-	// Find
-	List<Rating> listResult = ratingService.getAllRatings();
-	assertTrue(listResult.size() > 0);
+        // Find
+        List<Rating> listResult = ratingService.getAllRatings();
+        assertTrue(listResult.size() > 0);
 
-	// Delete
-	Integer id = rating.getId();
-	ratingService.deleteRating(rating);
-	Optional<Rating> ratingList = ratingService.getRatingById(id);
-	assertFalse(ratingList.isPresent());
+        // Delete
+        Integer id = rating.getId();
+        ratingService.deleteRating(rating);
+        Optional<Rating> ratingList = ratingService.getRatingById(id);
+        assertFalse(ratingList.isPresent());
     }
 
     @Test
     @WithMockUser(roles = "ADMIN")
     public void shouldReturnListOfRatingPage() throws Exception {
-	// get the rating list page
-	mockMvc.perform(get("/rating/list")).andExpect(status().isOk()).andExpect(model().attributeExists("ratings"))
-		.andExpect(view().name("rating/list"));
+        // get the rating list page
+        mockMvc.perform(get("/rating/list")).andExpect(status().isOk()).andExpect(model().attributeExists("ratings"))
+                .andExpect(view().name("rating/list"));
     }
 
     @Test
     @WithMockUser
     public void shouldReturnAddRatingPage() throws Exception {
 
-	// Get the rating Add page
-	mockMvc.perform(get("/rating/add")).andExpect(status().isOk()).andExpect(view().name("rating/add"));
+        // Get the rating Add page
+        mockMvc.perform(get("/rating/add")).andExpect(status().isOk()).andExpect(view().name("rating/add"));
     }
 
     @Test
     @WithMockUser
     public void addRatingToRatingList() throws Exception {
-	// New Object
-	Rating ratingTest = new Rating("Moodys Rating", "Sand PRating", "Fitch Rating", 10);
-	// Bid List size
-	int ratingSize = ratingService.getAllRatings().size();
+        // New Object
+        Rating ratingTest = new Rating("Moodys Rating", "Sand PRating", "Fitch Rating", 10);
+        // Bid List size
+        int ratingSize = ratingService.getAllRatings().size();
 
-	// perform post to add rating to rating List (in DB)
-	mockMvc.perform(post("/rating/validate").flashAttr("rating", ratingTest)).andExpect(status().is3xxRedirection())
-		.andExpect(view().name("redirect:/rating/list"));
-	// Verify if rating is added to DB
-	assertEquals(ratingService.getAllRatings().size(), ratingSize + 1);
-	// Delete rating from DB
-	Integer id = ratingTest.getId();
-	ratingService.deleteRating(ratingTest);
-	Optional<Rating> rating = ratingService.getRatingById(id);
-	assertFalse(rating.isPresent());
+        // perform post to add rating to rating List (in DB)
+        mockMvc.perform(post("/rating/validate").flashAttr("rating", ratingTest)).andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/rating/list"));
+        // Verify if rating is added to DB
+        assertEquals(ratingService.getAllRatings().size(), ratingSize + 1);
+        // Delete rating from DB
+        Integer id = ratingTest.getId();
+        ratingService.deleteRating(ratingTest);
+        Optional<Rating> rating = ratingService.getRatingById(id);
+        assertFalse(rating.isPresent());
     }
 
     @Test
     @WithMockUser
     public void addRatingToRatingListWithEmptyFields() throws Exception {
-	// perform post with empty fields and verify if there is errors
-	mockMvc.perform(post("/rating/validate").param("moodysRating", "").param("sandPRating", "")
-		.param("fitchRating", "").param("orderNumber", "")).andExpect(status().isOk())
-		.andExpect(view().name("rating/add")).andExpect(model().attributeHasFieldErrors("rating",
-			"moodysRating", "sandPRating", "fitchRating", "orderNumber"));
+        // perform post with empty fields and verify if there is errors
+        mockMvc.perform(post("/rating/validate").param("moodysRating", "").param("sandPRating", "")
+                .param("fitchRating", "").param("orderNumber", "")).andExpect(status().isOk())
+                .andExpect(view().name("rating/add")).andExpect(model().attributeHasFieldErrors("rating",
+                        "moodysRating", "sandPRating", "fitchRating", "orderNumber"));
     }
 
     @Test
     @WithMockUser
     public void shouldReturnRatingUpdatePage() throws Exception {
-	// New object
-	Rating ratingTest = new Rating("Moodys Rating", "Sand PRating", "Fitch Rating", 10);
-	// Save
-	ratingTest = ratingService.addRating(ratingTest);
-	assertNotNull(ratingTest.getId());
-	assertTrue(ratingTest.getOrderNumber() == 10);
-	// get ID
-	Integer id = ratingTest.getId();
-	// Perform get to show update rating page
-	mockMvc.perform(get("/rating/update/{id}", id)).andExpect(status().isOk())
-		.andExpect(view().name("rating/update")).andExpect(model().attributeExists("rating"));
+        // New object
+        Rating ratingTest = new Rating("Moodys Rating", "Sand PRating", "Fitch Rating", 10);
+        // Save
+        ratingTest = ratingService.addRating(ratingTest);
+        assertNotNull(ratingTest.getId());
+        assertTrue(ratingTest.getOrderNumber() == 10);
+        // get ID
+        Integer id = ratingTest.getId();
+        // Perform get to show update rating page
+        mockMvc.perform(get("/rating/update/{id}", id)).andExpect(status().isOk())
+                .andExpect(view().name("rating/update")).andExpect(model().attributeExists("rating"));
 
-	// Delete
-	ratingService.deleteRating(ratingTest);
-	Optional<Rating> rating = ratingService.getRatingById(id);
-	assertFalse(rating.isPresent());
+        // Delete
+        ratingService.deleteRating(ratingTest);
+        Optional<Rating> rating = ratingService.getRatingById(id);
+        assertFalse(rating.isPresent());
 
     }
 
     @Test
     @WithMockUser
     public void updateRatingInRatingList() throws Exception {
-	// New Object
-	Rating ratingTest = new Rating("Moodys Rating", "Sand PRating", "Fitch Rating", 10);
+        // New Object
+        Rating ratingTest = new Rating("Moodys Rating", "Sand PRating", "Fitch Rating", 10);
 
-	// Save
-	ratingTest = ratingService.addRating(ratingTest);
-	assertNotNull(ratingTest.getId());
-	assertTrue(ratingTest.getOrderNumber() == 10);
-	// get ID
-	Integer id = ratingTest.getId();
+        // Save
+        ratingTest = ratingService.addRating(ratingTest);
+        assertNotNull(ratingTest.getId());
+        assertTrue(ratingTest.getOrderNumber() == 10);
+        // get ID
+        Integer id = ratingTest.getId();
 
-	// perform post to update rating
-	mockMvc.perform(post("/rating/update/{id}", id).flashAttr("rating", ratingTest)
-		.param("moodysRating", "Moodys Modify").param("sandPRating", "Sand PRating Modify")
-		.param("fitchRating", "Fitch Rating Modify").param("orderNumber", "20"))
-		.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/rating/list"));
+        // perform post to update rating
+        mockMvc.perform(post("/rating/update/{id}", id).flashAttr("rating", ratingTest)
+                .param("moodysRating", "Moodys Modify").param("sandPRating", "Sand PRating Modify")
+                .param("fitchRating", "Fitch Rating Modify").param("orderNumber", "20"))
+                .andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/rating/list"));
 
-	// Verifying if there is modifications
-	assertEquals(ratingTest.getMoodysRating(), "Moodys Modify");
-	assertEquals(ratingTest.getSandPRating(), "Sand PRating Modify");
-	assertEquals(ratingTest.getFitchRating(), "Fitch Rating Modify");
-	assertEquals(ratingTest.getOrderNumber(), 20);
+        // Verifying if there is modifications
+        assertEquals(ratingTest.getMoodysRating(), "Moodys Modify");
+        assertEquals(ratingTest.getSandPRating(), "Sand PRating Modify");
+        assertEquals(ratingTest.getFitchRating(), "Fitch Rating Modify");
+        assertEquals(ratingTest.getOrderNumber(), 20);
 
-	// Delete
-	ratingService.deleteRating(ratingTest);
-	Optional<Rating> rating = ratingService.getRatingById(id);
-	assertFalse(rating.isPresent());
+        // Delete
+        ratingService.deleteRating(ratingTest);
+        Optional<Rating> rating = ratingService.getRatingById(id);
+        assertFalse(rating.isPresent());
 
     }
 
     @Test
     @WithMockUser
     public void updateRatingToRatingListWithEmptyFields() throws Exception {
-	// new Object
-	Rating ratingTest = new Rating("Moodys Rating", "Sand PRating", "Fitch Rating", 10);
+        // new Object
+        Rating ratingTest = new Rating("Moodys Rating", "Sand PRating", "Fitch Rating", 10);
 
-	// Save
-	ratingTest = ratingService.addRating(ratingTest);
-	assertNotNull(ratingTest.getId());
-	assertTrue(ratingTest.getOrderNumber() == 10);
-	// get ID
-	Integer id = ratingTest.getId();
+        // Save
+        ratingTest = ratingService.addRating(ratingTest);
+        assertNotNull(ratingTest.getId());
+        assertTrue(ratingTest.getOrderNumber() == 10);
+        // get ID
+        Integer id = ratingTest.getId();
 
-	// perform post with empty fields and verify if there is errors
-	mockMvc.perform(post("/rating/update/{id}", id).param("moodysRating", "").param("sandPRating", "")
-		.param("fitchRating", "").param("orderNumber", "")).andExpect(status().isOk())
-		.andExpect(view().name("rating/update")).andExpect(model().attributeHasFieldErrors("rating",
-			"moodysRating", "sandPRating", "fitchRating", "orderNumber"));
-	// Verifying if there is no modifications
-	assertEquals(ratingTest.getMoodysRating(), "Moodys Rating");
-	assertEquals(ratingTest.getSandPRating(), "Sand PRating");
-	assertEquals(ratingTest.getFitchRating(), "Fitch Rating");
-	assertEquals(ratingTest.getOrderNumber(), 10);
+        // perform post with empty fields and verify if there is errors
+        mockMvc.perform(post("/rating/update/{id}", id).param("moodysRating", "").param("sandPRating", "")
+                .param("fitchRating", "").param("orderNumber", "")).andExpect(status().isOk())
+                .andExpect(view().name("rating/update")).andExpect(model().attributeHasFieldErrors("rating",
+                        "moodysRating", "sandPRating", "fitchRating", "orderNumber"));
+        // Verifying if there is no modifications
+        assertEquals(ratingTest.getMoodysRating(), "Moodys Rating");
+        assertEquals(ratingTest.getSandPRating(), "Sand PRating");
+        assertEquals(ratingTest.getFitchRating(), "Fitch Rating");
+        assertEquals(ratingTest.getOrderNumber(), 10);
 
-	// delete
-	ratingService.deleteRating(ratingTest);
-	Optional<Rating> rating = ratingService.getRatingById(id);
-	assertFalse(rating.isPresent());
+        // delete
+        ratingService.deleteRating(ratingTest);
+        Optional<Rating> rating = ratingService.getRatingById(id);
+        assertFalse(rating.isPresent());
 
     }
 
     @Test
     @WithMockUser
     public void deleteRatingInRatingList() throws Exception {
-	// New Object
-	Rating ratingTest = new Rating("Moodys Rating", "Sand PRating", "Fitch Rating", 10);
+        // New Object
+        Rating ratingTest = new Rating("Moodys Rating", "Sand PRating", "Fitch Rating", 10);
 
-	// Save
-	ratingTest = ratingService.addRating(ratingTest);
-	assertNotNull(ratingTest.getId());
-	assertTrue(ratingTest.getOrderNumber() == 10);
-	// get ID
-	Integer id = ratingTest.getId();
+        // Save
+        ratingTest = ratingService.addRating(ratingTest);
+        assertNotNull(ratingTest.getId());
+        assertTrue(ratingTest.getOrderNumber() == 10);
+        // get ID
+        Integer id = ratingTest.getId();
 
-	// perform post to delete rating
-	mockMvc.perform(get("/rating/delete/{id}", id).flashAttr("rating", ratingTest))
-		.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/rating/list"));
+        // perform post to delete rating
+        mockMvc.perform(get("/rating/delete/{id}", id).flashAttr("rating", ratingTest))
+                .andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/rating/list"));
 
-	// Verify if rating is Deleted
-	Optional<Rating> rating = ratingService.getRatingById(id);
-	assertFalse(rating.isPresent());
+        // Verify if rating is Deleted
+        Optional<Rating> rating = ratingService.getRatingById(id);
+        assertFalse(rating.isPresent());
 
     }
 }
