@@ -16,22 +16,22 @@ public class TradeService {
     private TradeRepository tradeRepository;
 
     public List<Trade> getAllTrades() {
-	return tradeRepository.findAll();
+        return tradeRepository.findAll();
     }
 
     public Optional<Trade> getTradeById(Integer id) {
-	return tradeRepository.findById(id);
+        return tradeRepository.findById(id);
     }
 
     public Trade addTrade(Trade trade) {
-	return tradeRepository.save(trade);
+        return tradeRepository.save(trade);
     }
 
     public Trade updateTrade(Trade trade) {
-	return tradeRepository.save(trade);
+        return tradeRepository.save(trade);
     }
 
     public void deleteTrade(Trade trade) {
-	tradeRepository.delete(trade);
+        tradeRepository.delete(trade);
     }
 }

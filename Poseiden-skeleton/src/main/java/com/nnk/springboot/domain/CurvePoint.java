@@ -40,9 +40,9 @@ public class CurvePoint {
     private Timestamp creationDate;
 
     public CurvePoint(Integer curveId, double term, double value) {
-	this.CurveId = curveId;
-	this.term = term;
-	this.value = value;
+        this.CurveId = curveId;
+        this.term = term;
+        this.value = value;
     }
 
 }

@@ -16,22 +16,22 @@ public class RuleNameService {
     private RuleNameRepository ruleNameRepository;
 
     public List<RuleName> getAllRuleNames() {
-	return ruleNameRepository.findAll();
+        return ruleNameRepository.findAll();
     }
 
     public Optional<RuleName> getRuleNameById(Integer id) {
-	return ruleNameRepository.findById(id);
+        return ruleNameRepository.findById(id);
     }
 
     public RuleName addRuleName(RuleName ruleName) {
-	return ruleNameRepository.save(ruleName);
+        return ruleNameRepository.save(ruleName);
     }
 
     public RuleName updateRuleName(RuleName ruleName) {
-	return ruleNameRepository.save(ruleName);
+        return ruleNameRepository.save(ruleName);
     }
 
     public void deleteRuleName(RuleName ruleName) {
-	ruleNameRepository.delete(ruleName);
+        ruleNameRepository.delete(ruleName);
     }
 }

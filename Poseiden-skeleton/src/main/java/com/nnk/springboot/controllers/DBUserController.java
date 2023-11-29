@@ -27,8 +27,8 @@ public class DBUserController {
      */
     @GetMapping("/user/list")
     public String home(Model model) {
-	model.addAttribute("users", userService.findAllUsers());
-	return "user/list";
+        model.addAttribute("users", userService.findAllUsers());
+        return "user/list";
     }
 
     /**
@@ -39,7 +39,7 @@ public class DBUserController {
      */
     @GetMapping("/user/add")
     public String addUser(DBUser user) {
-	return "user/add";
+        return "user/add";
     }
 
     /**
@@ -52,13 +52,13 @@ public class DBUserController {
      */
     @PostMapping("/user/validate")
     public String validate(@Valid DBUser user, BindingResult result, Model model) {
-	if (!result.hasErrors()) {
-	    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-	    user.setPassword(encoder.encode(user.getPassword()));
-	    userService.addUser(user);
-	    return "redirect:/user/list";
-	}
-	return "user/add";
+        if (!result.hasErrors()) {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            user.setPassword(encoder.encode(user.getPassword()));
+            userService.addUser(user);
+            return "redirect:/user/list";
+        }
+        return "user/add";
     }
 
     /**
@@ -70,11 +70,11 @@ public class DBUserController {
      */
     @GetMapping("/user/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-	DBUser user = userService.findUserById(id)
-		.orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-	user.setPassword("");
-	model.addAttribute("DBUser", user);
-	return "user/update";
+        DBUser user = userService.findUserById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        user.setPassword("");
+        model.addAttribute("DBUser", user);
+        return "user/update";
     }
 
     /**
@@ -88,15 +88,15 @@ public class DBUserController {
      */
     @PostMapping("/user/update/{id}")
     public String updateUser(@PathVariable("id") Integer id, @Valid DBUser user, BindingResult result, Model model) {
-	if (result.hasErrors()) {
-	    return "user/update";
-	}
+        if (result.hasErrors()) {
+            return "user/update";
+        }
 
-	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-	user.setPassword(encoder.encode(user.getPassword()));
-	user.setId(id);
-	userService.updateUser(user);
-	return "redirect:/user/list";
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        user.setPassword(encoder.encode(user.getPassword()));
+        user.setId(id);
+        userService.updateUser(user);
+        return "redirect:/user/list";
     }
 
     /**
@@ -108,9 +108,9 @@ public class DBUserController {
      */
     @GetMapping("/user/delete/{id}")
     public String deleteUser(@PathVariable("id") Integer id, Model model) {
-	DBUser user = userService.findUserById(id)
-		.orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-	userService.deleteUser(user);
-	return "redirect:/user/list";
+        DBUser user = userService.findUserById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        userService.deleteUser(user);
+        return "redirect:/user/list";
     }
 }

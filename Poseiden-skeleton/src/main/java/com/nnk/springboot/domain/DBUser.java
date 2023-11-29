@@ -32,10 +32,10 @@ public class DBUser {
     private String role;
 
     public DBUser(String username, String password, String fullname, String role) {
-	this.username = username;
-	this.password = password;
-	this.fullname = fullname;
-	this.role = role;
+        this.username = username;
+        this.password = password;
+        this.fullname = fullname;
+        this.role = role;
     }
 
 }

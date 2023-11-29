@@ -16,27 +16,27 @@ public class DBUserService {
     private DBUserRepository userRepository;
 
     public List<DBUser> findAllUsers() {
-	return userRepository.findAll();
+        return userRepository.findAll();
     }
 
     public DBUser addUser(DBUser user) {
-	return userRepository.save(user);
+        return userRepository.save(user);
     }
 
     public DBUser updateUser(DBUser user) {
-	return userRepository.save(user);
+        return userRepository.save(user);
     }
 
     public Optional<DBUser> findUserById(int id) {
-	return userRepository.findById(id);
+        return userRepository.findById(id);
     }
 
     public void deleteUser(DBUser user) {
-	userRepository.delete(user);
+        userRepository.delete(user);
     }
 
     public DBUser findByUsername(String username) {
-	return userRepository.findByUsername(username);
+        return userRepository.findByUsername(username);
     }
 
 }

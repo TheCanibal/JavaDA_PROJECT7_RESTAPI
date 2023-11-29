@@ -26,7 +26,7 @@ public class HomeController {
      */
     @GetMapping("/")
     public String home(Model model) {
-	return "home";
+        return "home";
     }
 
     /**
@@ -37,8 +37,8 @@ public class HomeController {
      */
     @GetMapping("/admin/home")
     public String adminHome(Model model) {
-	model.addAttribute("bidLists", bidListService.getAllBidLists());
-	return "redirect:/bidList/list";
+        model.addAttribute("bidLists", bidListService.getAllBidLists());
+        return "redirect:/bidList/list";
     }
 
     /**
@@ -48,10 +48,10 @@ public class HomeController {
      */
     @GetMapping("secure/article-details")
     public ModelAndView getAllUserArticles() {
-	ModelAndView mav = new ModelAndView();
-	mav.addObject("users", userRepository.findAll());
-	mav.setViewName("user/list");
-	return mav;
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("users", userRepository.findAll());
+        mav.setViewName("user/list");
+        return mav;
     }
 
     /**
@@ -61,10 +61,10 @@ public class HomeController {
      */
     @GetMapping("/access-denied")
     public ModelAndView error() {
-	ModelAndView mav = new ModelAndView("/403");
-	String errorMessage = "You are not authorized for the requested data.";
-	mav.addObject("errorMsg", errorMessage);
-	return mav;
+        ModelAndView mav = new ModelAndView("/403");
+        String errorMessage = "You are not authorized for the requested data.";
+        mav.addObject("errorMsg", errorMessage);
+        return mav;
     }
 
 }

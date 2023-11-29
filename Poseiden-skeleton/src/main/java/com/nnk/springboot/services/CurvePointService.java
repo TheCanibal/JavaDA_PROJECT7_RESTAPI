@@ -16,22 +16,22 @@ public class CurvePointService {
     private CurvePointRepository curveRepository;
 
     public List<CurvePoint> getAllCurvePoints() {
-	return curveRepository.findAll();
+        return curveRepository.findAll();
     }
 
     public Optional<CurvePoint> getCurveById(Integer id) {
-	return curveRepository.findById(id);
+        return curveRepository.findById(id);
     }
 
     public CurvePoint addCurvePoint(CurvePoint curvePoint) {
-	return curveRepository.save(curvePoint);
+        return curveRepository.save(curvePoint);
     }
 
     public CurvePoint updateCurvePoint(CurvePoint curvePoint) {
-	return curveRepository.save(curvePoint);
+        return curveRepository.save(curvePoint);
     }
 
     public void deleteCurvePoint(CurvePoint curvePoint) {
-	curveRepository.delete(curvePoint);
+        curveRepository.delete(curvePoint);
     }
 }
