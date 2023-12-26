@@ -21,7 +21,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CurvePoint {
-    // TODO: Map columns in data table CURVEPOINT with corresponding java fields
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")

@@ -20,18 +20,20 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class Rating {
-    // TODO: Map columns in data table RATING with corresponding java fields
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
     private Integer Id;
+    @Column(name = "moodys_Rating")
     @NotBlank(message = "moodysRating is mandatory")
     private String moodysRating;
+    @Column(name = "sand_P_Rating")
     @NotBlank(message = "sandPRating is mandatory")
     private String sandPRating;
+    @Column(name = "fitch_Rating")
     @NotBlank(message = "fitchRating is mandatory")
     private String fitchRating;
+    @Column(name = "order_Number")
     @NotNull(message = "order number can't be null")
     @Min(1)
     @Digits(integer = 4, fraction = 0, message = "Maximum 4 digits")

@@ -97,4 +97,4 @@ CREATE TABLE Users (
 );
 
 insert into Users(fullname, username, password, role) values("Administrator", "admin", "$2a$10$0.aGcFlatjAfIhmmHkG/i.wkew6w8HBE8WsOTla1ivKDtkNddCiTK", "ADMIN");
-insert into Users(fullname, username, password, role) values("User", "user", "$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa", "USER");
+insert into Users(fullname, username, password, role) values("User", "user", "$2a$10$maVhcBBy0DU74itKrlYdleiX.JJWX2z8yXBZ2BHso0RCmOkA1JX/i", "USER");
