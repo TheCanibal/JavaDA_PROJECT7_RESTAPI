@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -84,7 +85,7 @@ public class RuleTests {
         int ratingSize = ruleNameService.getAllRuleNames().size();
 
         // perform post to add Rule to Rule List (in DB)
-        mockMvc.perform(post("/ruleName/validate").flashAttr("ruleName", ruleName))
+        mockMvc.perform(post("/ruleName/validate").flashAttr("ruleName", ruleName).with(csrf()))
                 .andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/ruleName/list"));
         // Verify if Rule is added to DB
         assertEquals(ruleNameService.getAllRuleNames().size(), ratingSize + 1);
@@ -102,7 +103,7 @@ public class RuleTests {
     public void addRatingToRatingListWithEmptyFields() throws Exception {
         // perform post with empty fields and verify if there is errors
         mockMvc.perform(post("/ruleName/validate").param("name", "").param("description", "").param("json", "")
-                .param("template", "").param("sqlStr", "").param("sqlPart", "")).andExpect(status().isOk())
+                .param("template", "").param("sqlStr", "").param("sqlPart", "").with(csrf())).andExpect(status().isOk())
                 .andExpect(view().name("ruleName/add")).andExpect(model().attributeHasFieldErrors("ruleName", "name",
                         "description", "json", "template", "sqlStr", "sqlPart"));
     }
@@ -148,7 +149,7 @@ public class RuleTests {
         mockMvc.perform(post("/ruleName/update/{id}", id).flashAttr("ruleName", ruleName)
                 .param("name", "Rule Name Modify").param("description", "Description Modify")
                 .param("json", "Json Modify").param("template", "Template Modify").param("sqlStr", "SQL Modify")
-                .param("sqlPart", "SQL Part Modify")).andExpect(status().is3xxRedirection())
+                .param("sqlPart", "SQL Part Modify").with(csrf())).andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/ruleName/list"));
 
         // Verifying if there is modifications
@@ -182,7 +183,7 @@ public class RuleTests {
 
         // perform post with empty fields and verify if there is errors
         mockMvc.perform(post("/ruleName/update/{id}", id).param("name", "").param("description", "").param("json", "")
-                .param("template", "").param("sqlStr", "").param("sqlPart", "")).andExpect(status().isOk())
+                .param("template", "").param("sqlStr", "").param("sqlPart", "").with(csrf())).andExpect(status().isOk())
                 .andExpect(view().name("ruleName/update")).andExpect(model().attributeHasFieldErrors("ruleName", "name",
                         "description", "json", "template", "sqlStr", "sqlPart"));
         // Verifying if there is no modifications

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
@@ -96,7 +97,8 @@ public class DBUserTests {
         int userListSize = dbUserService.findAllUsers().size();
 
         // perform post to add user to user List (in DB)
-        mockMvc.perform(post("/user/validate").flashAttr("DBUser", user)).andExpect(status().is3xxRedirection())
+        mockMvc.perform(post("/user/validate").flashAttr("DBUser", user).with(csrf()))
+                .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/user/list"));
         // Verify if user is added to DB
         assertEquals(dbUserService.findAllUsers().size(), userListSize + 1);
@@ -116,7 +118,7 @@ public class DBUserTests {
     public void addUserToUserListWithEmptyFieldsAsAdmin() throws Exception {
         // perform post with empty fields and verify if there is errors
         mockMvc.perform(post("/user/validate").param("fullname", "").param("username", "").param("password", "")
-                .param("role", "")).andExpect(status().isOk()).andExpect(view().name("user/add"))
+                .param("role", "").with(csrf())).andExpect(status().isOk()).andExpect(view().name("user/add"))
                 .andExpect(model().attributeHasFieldErrors("DBUser", "fullname", "username", "password", "role"));
 
     }
@@ -158,7 +160,8 @@ public class DBUserTests {
         // perform post to update user(roles = "ADMIN")
         mockMvc.perform(
                 post("/user/update/{id}", id).flashAttr("DBUser", user).param("fullname", "KevAdministratorModify")
-                        .param("username", "KevAdminModify").param("password", "B7e5f49917@").param("role", "ADMIN"))
+                        .param("username", "KevAdminModify").param("password", "B7e5f49917@").param("role", "ADMIN")
+                        .with(csrf()))
                 .andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/user/list"));
 
         // Verifying if there is modifications
@@ -189,7 +192,7 @@ public class DBUserTests {
 
         // perform post with empty fields and verify if there is errors
         mockMvc.perform(post("/user/update/{id}", id).param("fullname", "").param("username", "").param("password", "")
-                .param("role", "")).andExpect(status().isOk()).andExpect(view().name("user/update"))
+                .param("role", "").with(csrf())).andExpect(status().isOk()).andExpect(view().name("user/update"))
                 .andExpect(model().attributeHasFieldErrors("DBUser", "fullname", "username", "password", "role"));
         // Verifying if there is no modifications
         assertEquals(user.getFullname(), "KevAdministrator");

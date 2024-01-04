@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -83,7 +84,8 @@ public class RatingTests {
         int ratingSize = ratingService.getAllRatings().size();
 
         // perform post to add rating to rating List (in DB)
-        mockMvc.perform(post("/rating/validate").flashAttr("rating", ratingTest)).andExpect(status().is3xxRedirection())
+        mockMvc.perform(post("/rating/validate").flashAttr("rating", ratingTest).with(csrf()))
+                .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/rating/list"));
         // Verify if rating is added to DB
         assertEquals(ratingService.getAllRatings().size(), ratingSize + 1);
@@ -99,7 +101,7 @@ public class RatingTests {
     public void addRatingToRatingListWithEmptyFields() throws Exception {
         // perform post with empty fields and verify if there is errors
         mockMvc.perform(post("/rating/validate").param("moodysRating", "").param("sandPRating", "")
-                .param("fitchRating", "").param("orderNumber", "")).andExpect(status().isOk())
+                .param("fitchRating", "").param("orderNumber", "").with(csrf())).andExpect(status().isOk())
                 .andExpect(view().name("rating/add")).andExpect(model().attributeHasFieldErrors("rating",
                         "moodysRating", "sandPRating", "fitchRating", "orderNumber"));
     }
@@ -142,7 +144,7 @@ public class RatingTests {
         // perform post to update rating
         mockMvc.perform(post("/rating/update/{id}", id).flashAttr("rating", ratingTest)
                 .param("moodysRating", "Moodys Modify").param("sandPRating", "Sand PRating Modify")
-                .param("fitchRating", "Fitch Rating Modify").param("orderNumber", "20"))
+                .param("fitchRating", "Fitch Rating Modify").param("orderNumber", "20").with(csrf()))
                 .andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/rating/list"));
 
         // Verifying if there is modifications
@@ -173,7 +175,7 @@ public class RatingTests {
 
         // perform post with empty fields and verify if there is errors
         mockMvc.perform(post("/rating/update/{id}", id).param("moodysRating", "").param("sandPRating", "")
-                .param("fitchRating", "").param("orderNumber", "")).andExpect(status().isOk())
+                .param("fitchRating", "").param("orderNumber", "").with(csrf())).andExpect(status().isOk())
                 .andExpect(view().name("rating/update")).andExpect(model().attributeHasFieldErrors("rating",
                         "moodysRating", "sandPRating", "fitchRating", "orderNumber"));
         // Verifying if there is no modifications

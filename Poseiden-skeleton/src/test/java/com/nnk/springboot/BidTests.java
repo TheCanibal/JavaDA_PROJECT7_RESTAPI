@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -83,7 +84,8 @@ public class BidTests {
         int bidListSize = bidListService.getAllBidLists().size();
 
         // perform post to add bid to bid List (in DB)
-        mockMvc.perform(post("/bidList/validate").flashAttr("bidList", bid)).andExpect(status().is3xxRedirection())
+        mockMvc.perform(post("/bidList/validate").flashAttr("bidList", bid).with(csrf()))
+                .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/bidList/list"));
         // Verify if bid is added to DB
         assertEquals(bidListService.getAllBidLists().size(), bidListSize + 1);
@@ -99,7 +101,8 @@ public class BidTests {
     @WithMockUser
     public void addBidToBidListWithEmptyFields() throws Exception {
         // perform post with empty fields and verify if there is errors
-        mockMvc.perform(post("/bidList/validate").param("account", "").param("type", "").param("bidQuantity", ""))
+        mockMvc.perform(
+                post("/bidList/validate").param("account", "").param("type", "").param("bidQuantity", "").with(csrf()))
                 .andExpect(status().isOk()).andExpect(view().name("bidList/add"))
                 .andExpect(model().attributeHasFieldErrors("bidList", "account", "type", "bidQuantity"));
 
@@ -142,7 +145,8 @@ public class BidTests {
 
         // perform post to update bid
         mockMvc.perform(post("/bidList/update/{id}", id).flashAttr("bidList", bid).param("account", "Account Modify")
-                .param("type", "Type Modify").param("bidQuantity", "20d")).andExpect(status().is3xxRedirection())
+                .param("type", "Type Modify").param("bidQuantity", "20d").with(csrf()))
+                .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/bidList/list"));
 
         // Verifying if there is modifications
@@ -171,7 +175,8 @@ public class BidTests {
 
         // perform post with empty fields and verify if there is errors
         mockMvc.perform(
-                post("/bidList/update/{id}", id).param("account", "").param("type", "").param("bidQuantity", ""))
+                post("/bidList/update/{id}", id).param("account", "").param("type", "").param("bidQuantity", "")
+                        .with(csrf()))
                 .andExpect(status().isOk()).andExpect(view().name("bidList/update"))
                 .andExpect(model().attributeHasFieldErrors("bidList", "account", "type", "bidQuantity"));
         // Verifying if there is no modifications

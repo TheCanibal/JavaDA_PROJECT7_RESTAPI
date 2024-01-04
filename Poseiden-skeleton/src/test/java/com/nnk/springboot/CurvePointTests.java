@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -83,7 +84,7 @@ public class CurvePointTests {
         int curvePointSize = curvePointService.getAllCurvePoints().size();
 
         // perform post to add Curve to Curve List (in DB)
-        mockMvc.perform(post("/curvePoint/validate").flashAttr("curvePoint", curvePoint))
+        mockMvc.perform(post("/curvePoint/validate").flashAttr("curvePoint", curvePoint).with(csrf()))
                 .andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/curvePoint/list"));
         // Verify if Curve is added to DB
         assertEquals(curvePointService.getAllCurvePoints().size(), curvePointSize + 1);
@@ -99,7 +100,8 @@ public class CurvePointTests {
     @WithMockUser
     public void addCurvePointToCurvePointListWithEmptyFields() throws Exception {
         // perform post with empty fields and verify if there is errors
-        mockMvc.perform(post("/curvePoint/validate").param("term", "").param("value", "")).andExpect(status().isOk())
+        mockMvc.perform(post("/curvePoint/validate").param("term", "").param("value", "").with(csrf()))
+                .andExpect(status().isOk())
                 .andExpect(view().name("curvePoint/add"))
                 .andExpect(model().attributeHasFieldErrors("curvePoint", "term", "value"));
 
@@ -144,7 +146,7 @@ public class CurvePointTests {
 
         // perform post to update Curve
         mockMvc.perform(post("/curvePoint/update/{id}", id).flashAttr("curvePoint", curvePoint).param("term", "20d")
-                .param("value", "20d")).andExpect(status().is3xxRedirection())
+                .param("value", "20d").with(csrf())).andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/curvePoint/list"));
 
         // Verifying if there is modifications
@@ -172,7 +174,7 @@ public class CurvePointTests {
         Integer id = curvePoint.getId();
 
         // perform post with empty fields and verify if there is errors
-        mockMvc.perform(post("/curvePoint/update/{id}", id).param("term", "").param("value", ""))
+        mockMvc.perform(post("/curvePoint/update/{id}", id).param("term", "").param("value", "").with(csrf()))
                 .andExpect(status().isOk()).andExpect(view().name("curvePoint/update"))
                 .andExpect(model().attributeHasFieldErrors("curvePoint", "term", "value"));
         // Verifying if there is no modifications

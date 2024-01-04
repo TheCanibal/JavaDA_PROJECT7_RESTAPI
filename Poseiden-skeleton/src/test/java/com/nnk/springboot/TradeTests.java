@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -83,7 +84,8 @@ public class TradeTests {
         int ratingSize = tradeService.getAllTrades().size();
 
         // perform post to add Trade to Trade List (in DB)
-        mockMvc.perform(post("/trade/validate").flashAttr("trade", trade)).andExpect(status().is3xxRedirection())
+        mockMvc.perform(post("/trade/validate").flashAttr("trade", trade).with(csrf()))
+                .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/trade/list"));
         // Verify if Trade is added to DB
         assertEquals(tradeService.getAllTrades().size(), ratingSize + 1);
@@ -99,7 +101,8 @@ public class TradeTests {
     @WithMockUser
     public void addTradeToTradeListWithEmptyFields() throws Exception {
         // perform post with empty fields and verify if there is errors
-        mockMvc.perform(post("/trade/validate").param("account", "").param("type", "").param("buyQuantity", ""))
+        mockMvc.perform(
+                post("/trade/validate").param("account", "").param("type", "").param("buyQuantity", "").with(csrf()))
                 .andExpect(status().isOk()).andExpect(view().name("trade/add"))
                 .andExpect(model().attributeHasFieldErrors("trade", "account", "type", "buyQuantity"));
     }
@@ -141,7 +144,8 @@ public class TradeTests {
 
         // perform post to update Trade
         mockMvc.perform(post("/trade/update/{id}", id).flashAttr("trade", trade)
-                .param("account", "Trade Account Modify").param("type", "Type Modify").param("buyQuantity", "20d"))
+                .param("account", "Trade Account Modify").param("type", "Type Modify").param("buyQuantity", "20d")
+                .with(csrf()))
                 .andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/trade/list"));
 
         // Verifying if there is modifications
@@ -170,7 +174,8 @@ public class TradeTests {
         Integer id = trade.getTradeId();
 
         // perform post with empty fields and verify if there is errors
-        mockMvc.perform(post("/trade/update/{id}", id).param("account", "").param("type", "").param("buyQuantity", ""))
+        mockMvc.perform(post("/trade/update/{id}", id).param("account", "").param("type", "").param("buyQuantity", "")
+                .with(csrf()))
                 .andExpect(status().isOk()).andExpect(view().name("trade/update"))
                 .andExpect(model().attributeHasFieldErrors("trade", "account", "type"));
         // Verifying if there is no modifications
